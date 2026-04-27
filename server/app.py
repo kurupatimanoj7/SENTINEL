@@ -6,6 +6,7 @@ import base64
 import hmac
 import json
 import logging
+import os
 import re
 import sqlite3
 import sys
@@ -307,4 +308,6 @@ def _admin_token_is_valid(token: Any, expected: Any) -> bool:
 
 if __name__ == "__main__":
     logging.getLogger("werkzeug").setLevel(logging.WARNING)
-    create_app().run(host="127.0.0.1", port=5000, debug=False)
+    host = os.getenv("SENTINEL_HOST", "127.0.0.1")
+    port = int(os.getenv("PORT", os.getenv("SENTINEL_PORT", "5000")))
+    create_app().run(host=host, port=port, debug=False)
